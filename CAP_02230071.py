@@ -28,7 +28,7 @@ class Account:
         else:
             print("Invalid withdrawal amount.")
 
-    def display_balance(self):
+    def current_balance(self):
         print(f"Current balance: ${self.balance}")
 
 # PersonalAccount class inheriting from Account
@@ -42,10 +42,10 @@ class BusinessAccount(Account):
         super().__init__(account_number, password, "Business", balance)
 
 # Function to create an account
-def create_account(account_type):
+def new_account(account_type):
     account_number = str(random.randint(100000, 999999))
     password = str(random.randint(1000, 9999))
-    balance = 0.0
+    balance = 0.00
 
     # Create account based on type
     if account_type == "Personal":
@@ -53,7 +53,7 @@ def create_account(account_type):
     elif account_type == "Business":
         account = BusinessAccount(account_number, password, balance)
     else:
-        print("Invalid account type.")
+        print("Invalid choice")
         return
 
     # Save account information to file
@@ -93,7 +93,7 @@ def login(account_number, password):
         return None
 
 # Function to delete an account
-def delete_account(account_number, password):
+def remove_account(account_number, password):
     accounts = load_accounts()
     if account_number in accounts and accounts[account_number].password == password:
         del accounts[account_number]
@@ -103,7 +103,7 @@ def delete_account(account_number, password):
         print("Invalid account number or password.")
 
 # Function to transfer money between accounts
-def transfer_money(from_account, to_account_number, amount):
+def transfer_fund(from_account, to_account_number, amount):
     accounts = load_accounts()
     if to_account_number in accounts:
         if from_account.balance >= amount:
@@ -128,7 +128,7 @@ def main():
 
         if choice == '1':
             account_type = input("Enter account type (Personal/Business): ")
-            create_account(account_type)
+            new_account(account_type)
 
         elif choice == '2':
             account_number = input("Enter account number: ")
@@ -145,12 +145,12 @@ def main():
                     choice = input("Enter choice: ")
 
                     if choice == '1':
-                        amount = float(input("Enter amount to deposit: "))
+                        amount = float(input("Diposition Amount: "))
                         account.deposit(amount)
                         save_accounts({account.account_number: account})
 
                     elif choice == '2':
-                        amount = float(input("Enter amount to withdraw: "))
+                        amount = float(input("Amount to Withdraw: "))
                         account.withdraw(amount)
                         save_accounts({account.account_number: account})
 
@@ -160,7 +160,7 @@ def main():
                     elif choice == '4':
                         to_account_number = input("Enter account number to transfer to: ")
                         amount = float(input("Enter amount to transfer: "))
-                        transfer_money(account, to_account_number, amount)
+                        transfer_fund(account, to_account_number, amount)
                         save_accounts({account.account_number: account})
 
                     elif choice == '5':
@@ -172,13 +172,13 @@ def main():
         elif choice == '3':
             account_number = input("Enter account number: ")
             password = input("Enter password: ")
-            delete_account(account_number, password)
+            remove_account(account_number, password)
 
         elif choice == '4':
             break
 
         else:
-            print("Invalid choice. Please try again.")
+            print("Choice not avialable")
 
 if __name__ == "__main__":
     main()
